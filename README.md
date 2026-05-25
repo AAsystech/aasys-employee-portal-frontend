@@ -58,33 +58,6 @@ VITE_ALLOWED_EMAIL_DOMAIN=mycompany.com
 VITE_GITHUB_PAGES_BASE=/employee-timesheet-portal/
 ```
 
-## Required backend environment variables
-
-```env
-DATABASE_URL=postgresql+psycopg://USER:PASSWORD@HOST.neon.tech/DB?sslmode=require
-FRONTEND_ORIGIN=https://your-github-username.github.io
-ALLOWED_EMAIL_DOMAIN=mycompany.com
-ADMIN_EMAIL=owner@mycompany.com
-NEON_AUTH_URL=https://your-neon-auth-url/neondb/auth
-NEON_AUTH_ISSUER=https://your-neon-auth-url/neondb/auth
-NEON_AUTH_AUDIENCE=
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=notifications@mycompany.com
-SMTP_PASSWORD=your-app-password
-SMTP_FROM=Timesheet Portal <notifications@mycompany.com>
-```
-
-## Render deployment
-
-1. Push this repo to GitHub.
-2. In Render, create a new Web Service.
-3. Set root directory to `backend`.
-4. Build command: `pip install -r requirements.txt`
-5. Start command: `gunicorn app.main:app -k uvicorn.workers.UvicornWorker -w 2 --bind 0.0.0.0:$PORT`
-6. Add all backend environment variables.
-7. Set `FRONTEND_ORIGIN` to your GitHub Pages origin.
-
 ## GitHub Pages deployment
 
 The workflow is in `frontend/.github/workflows/deploy.yml`. If your repo keeps workflows only at root, move it to `.github/workflows/deploy.yml` and keep the frontend working directory settings.
