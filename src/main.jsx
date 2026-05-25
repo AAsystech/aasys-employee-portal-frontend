@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import './index.css';
 import { authClient } from './lib/auth';
 import { api } from './lib/api';
@@ -25,7 +25,7 @@ function App() {
     });
   }, []);
   if (loading) return <div className="p-8">Loading...</div>;
-  return <BrowserRouter basename={import.meta.env.BASE_URL}>
+  return <HashRouter>
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route element={session && user ? <Layout user={user} /> : <Navigate to="/login" />}>
@@ -36,7 +36,7 @@ function App() {
       </Route>
       <Route path="*" element={<Navigate to={session ? '/dashboard' : '/login'} />} />
     </Routes>
-  </BrowserRouter>;
+  </HashRouter>;
 }
 
 createRoot(document.getElementById('root')).render(<App />);
