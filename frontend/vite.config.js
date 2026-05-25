@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: process.env.NODE_ENV === 'production' ? '/employee-timesheet-portal/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/aasys-employee-portal-frontend/' : '/',
 })
