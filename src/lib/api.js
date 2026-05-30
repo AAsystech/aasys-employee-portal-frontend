@@ -2,6 +2,24 @@ import { authClient } from './auth';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+export async function wakeBackend() {
+  for (let i = 1; i <= 20; i++) {
+    try {
+      const res = await fetch(`${API_URL}/health`);
+
+      if (res.ok) {
+        return true;
+      }
+    } catch (err) {
+      console.log("Backend still waking...", err);
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+  }
+
+  return false;
+}
+
 export async function api(path, options = {}) {
   const sessionResult = await authClient.getSession();
 
@@ -12,7 +30,11 @@ export async function api(path, options = {}) {
     sessionResult.data?.session?.accessToken ||
     sessionResult.data?.session?.access_token;
 
-  console.log("TOKEN PAYLOAD:", JSON.parse(atob(token.split(".")[1])));
+  if (token) {
+    console.log("TOKEN PAYLOAD:", JSON.parse(atob(token.split(".")[1])));
+  } else {
+    console.log("No auth token found");
+  }
 
   const res = await fetch(`${API_URL}${path}`, {
     ...options,

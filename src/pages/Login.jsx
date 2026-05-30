@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { authClient } from "../lib/auth";
+import { wakeBackend } from "../lib/api";
 
 export default function Login() {
   const [mode, setMode] = useState("signin");
@@ -10,6 +11,38 @@ export default function Login() {
   const [code, setCode] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [backendReady, setBackendReady] = useState(false);
+  const [backendMessage, setBackendMessage] = useState("Starting employee portal services...");
+
+  useEffect(() => {
+    let active = true;
+
+    async function startBackend() {
+      setBackendMessage(
+        "Starting employee portal services. First load may take up to 60 seconds."
+      );
+
+      const ready = await wakeBackend();
+
+      if (!active) return;
+
+      if (ready) {
+        setBackendReady(true);
+        setBackendMessage("");
+      } else {
+        setBackendReady(false);
+        setBackendMessage(
+          "Server is taking longer than expected. Please wait a moment or refresh the page."
+        );
+      }
+    }
+
+    startBackend();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const allowedDomain = import.meta.env.VITE_ALLOWED_EMAIL_DOMAIN;
 
@@ -177,6 +210,12 @@ export default function Login() {
             : "Create your employee account."}
         </p>
 
+        {backendMessage && (
+          <div className="mb-4 rounded-lg bg-blue-50 border border-blue-200 p-3 text-sm text-blue-800">
+            {backendMessage}
+          </div>
+        )}
+
         {mode === "signup" && (
           <>
             <label className="block text-sm font-medium mb-1">Full Name</label>
@@ -213,14 +252,16 @@ export default function Login() {
         {message && <p className="mb-4 text-sm text-slate-700">{message}</p>}
 
         <button
-          disabled={loading}
+          disabled={loading || !backendReady}
           className="w-full bg-slate-900 text-white rounded-lg p-3 disabled:opacity-50"
         >
-          {loading
-            ? "Please wait..."
-            : mode === "signin"
-              ? "Sign In"
-              : "Create Account"}
+          {!backendReady
+            ? "Starting Server..."
+            : loading
+              ? "Please wait..."
+              : mode === "signin"
+                ? "Sign In"
+                : "Create Account"}
         </button>
 
         <button
