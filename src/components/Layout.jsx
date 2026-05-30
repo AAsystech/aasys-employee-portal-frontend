@@ -11,7 +11,7 @@ export default function Layout({ user }) {
   return <div>
     <header className="border-b bg-white">
       <div className="mx-auto flex max-w-6xl items-center justify-between p-4">
-        <Link to="/dashboard" className="text-lg font-bold">Timesheet Portal</Link>
+        <Link to="/dashboard" className="text-lg font-bold">Employee Portal</Link>
         <nav className="flex items-center gap-3 text-sm">
           <Link to="/timesheet/new">Submit</Link>
           <Link to="/timesheet/history">History</Link>

@@ -203,7 +203,7 @@ export default function Login() {
         onSubmit={handleAuth}
         className="bg-white p-8 rounded-2xl shadow max-w-md w-full"
       >
-        <h1 className="text-2xl font-bold mb-2">Employee Timesheet Portal</h1>
+        <h1 className="text-2xl font-bold mb-2">Employee Portal</h1>
 
         <p className="text-slate-600 mb-6">
           {mode === "signin"
