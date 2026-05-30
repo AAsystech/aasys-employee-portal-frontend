@@ -73,7 +73,7 @@ export default function Login() {
           return;
         }
 
-        window.location.href = `${import.meta.env.BASE_URL}#/dashboard`;
+        window.location.reload();
       } else {
         const { error } = await authClient.signUp.email({
           name,
