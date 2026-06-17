@@ -10,7 +10,7 @@ import Dashboard from './pages/Dashboard';
 import TimesheetForm from './pages/TimesheetForm';
 import History from './pages/History';
 import AdminTimesheets from './pages/AdminTimesheets';
-
+import EmployeeDetails from './pages/EmployeeDetails';
 function App() {
   const [session, setSession] = useState(null);
   const [user, setUser] = useState(null);
@@ -33,6 +33,7 @@ function App() {
         <Route path="/timesheet/new" element={<TimesheetForm user={user} />} />
         <Route path="/timesheet/history" element={<History />} />
         <Route path="/admin/timesheets" element={user?.is_admin ? <AdminTimesheets /> : <Navigate to="/dashboard" />} />
+        <Route path="/employee-details" element={<EmployeeDetails />} />
       </Route>
       <Route path="*" element={<Navigate to={session ? '/dashboard' : '/login'} />} />
     </Routes>
